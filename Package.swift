@@ -24,5 +24,8 @@ let package = Package(
         .testTarget(
             name: "AppStateTests",
             dependencies: ["AppState"]),
+        .testTarget(
+            name: "LocalStateTests",
+            dependencies: ["AppState"])
     ]
 )
