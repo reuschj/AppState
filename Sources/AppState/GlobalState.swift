@@ -25,10 +25,10 @@ public class GlobalState: ApplicationState {
     
     public var dateCreated = Date()
     
-    public var state: StateMap = [:]
+    public var stateMap: StateMap = [:]
     
     public required init() {
-        self.state = [:]
+        self.stateMap = [:]
     }
     
 }

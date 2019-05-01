@@ -64,7 +64,7 @@ public protocol ApplicationState: Comparable, Hashable {
     var dateCreated: Date { get }
     
     /// This stores the actual `StateMap` `Dictionary`. This state can be directly accessed using one of the required methods or by `@dynamicMemberLookup`.
-    var state: StateMap { get set }
+    var stateMap: StateMap { get set }
     
     // Setting a value to state:
     // --------------------------
@@ -258,7 +258,7 @@ public extension ApplicationState {
     
     init(initialState state: StateMap = [:]) {
         self.init()
-        self.state = state
+        self.stateMap = state
     }
     
     // Set state
@@ -267,22 +267,22 @@ public extension ApplicationState {
         let originalValue: T? = lookup(member)
         let memberIsNew = originalValue == nil
         if allowOverride || memberIsNew {
-            state.updateValue(value, forKey: member)
+            stateMap.updateValue(value, forKey: member)
         }
         return originalValue
     }
     
     @discardableResult mutating func setState(_ stateToMerge: StateMap, allowOverride: Bool = true) -> StateMap {
-        let originalState: StateMap = state
+        let originalState: StateMap = stateMap
         let resolveMergeConflicts: (Any?, Any?) -> Any? = allowOverride ? { (_, new) in new } : { (current, _) in current }
-        state.merge(stateToMerge, uniquingKeysWith: resolveMergeConflicts)
+        stateMap.merge(stateToMerge, uniquingKeysWith: resolveMergeConflicts)
         return originalState
     }
     
     // Lookup
     
     func lookup<T>(_ membmer: String) -> T? {
-        return state[membmer] as? T
+        return stateMap[membmer] as? T
     }
     
     func lookup<T>(_ member: String, withDefault defaultValue: T) -> T {
@@ -292,11 +292,11 @@ public extension ApplicationState {
     // Type methods
     
     func filterByType<T>() -> StateMapOf<T> {
-        return state.filter { $0.value as? T != nil } as! StateMapOf<T>
+        return stateMap.filter { $0.value as? T != nil } as! StateMapOf<T>
     }
     
     func type(of member: String) -> Any.Type? {
-        let possibleValue = state[member] ?? nil
+        let possibleValue = stateMap[member] ?? nil
         guard let value = possibleValue else { return nil }
         return Swift.type(of: value)
     }
@@ -304,7 +304,7 @@ public extension ApplicationState {
     // Removing members
     
     @discardableResult mutating func remove(_ member: String) -> Any? {
-        return state.removeValue(forKey: member) ?? nil
+        return stateMap.removeValue(forKey: member) ?? nil
     }
     
     // Dynamic member lookup - All optionals
@@ -353,18 +353,18 @@ public extension ApplicationState {
     
     // Makes Equatable (embedded state dictionaries must be equal)
     static func == (lhs: Self, rhs: Self) -> Bool {
-        return lhs.state == rhs.state
+        return lhs.stateMap == rhs.stateMap
     }
     
     // Makes Comparable (compares by count of state properties)
     static func < (lhs: Self, rhs: Self) -> Bool {
-        return lhs.state.count < rhs.state.count
+        return lhs.stateMap.count < rhs.stateMap.count
     }
     
     // Makes Hashable
     func hash(into hasher: inout Hasher) {
         hasher.combine(dateCreated.hashValue)
-        hasher.combine(state.count)
+        hasher.combine(stateMap.count)
     }
     
 }

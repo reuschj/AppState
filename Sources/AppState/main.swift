@@ -45,6 +45,8 @@ print(musician ? "Is a musician" : "Isn't a musician")
 
 print(state.type(of: "age") ?? "Can't determine type")
 
+// To here
+
 let subOfString: StateMapOf<String> = state.filterByType()
 print(subOfString)
 

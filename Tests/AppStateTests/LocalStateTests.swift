@@ -14,14 +14,14 @@ final class LocalStateTests: XCTestCase {
         self.measure() {
             let testState = LocalState()
             let emptyStateMap: StateMap = [:]
-            XCTAssert(testState.state == emptyStateMap)
+            XCTAssert(testState.stateMap == emptyStateMap)
         }
     }
     
     func testThatInitializerWorksWithInitialState() {
         self.measure {
             let testState = LocalState(initialState: initialState)
-            XCTAssert(testState.state == initialState)
+            XCTAssert(testState.stateMap == initialState)
         }
     }
     
@@ -39,6 +39,48 @@ final class LocalStateTests: XCTestCase {
             XCTAssert(height == initialHeight)
             XCTAssert(signedIn == initialSignedInStatus)
             XCTAssert(employeeList == initialEmployeeList)
+            XCTAssert(employeeList.count == 3)
+            XCTAssert(initialCity ?? "no value" == "no value")
+        }
+    }
+    
+    func testThatSingleStateItemCanBeSet() {
+        self.measure {
+            let newCity = "Los Angeles"
+            let newState = "California"
+            testState.setState(newCity, for: "city")
+            testState.setState(newState, for: "state")
+            testState.setState(true, for: "signedIn")
+            let city: String? = testState.city
+            let state: String = testState.state
+            let height: Double = testState.height
+            let signedIn: Bool = testState.signedIn
+            XCTAssert(city == newCity)
+            XCTAssert(state == newState)
+            XCTAssert(signedIn == true)
+            XCTAssert(height == initialHeight)
+            XCTAssert(city != initialCity)
+            XCTAssert(signedIn != initialSignedInStatus)
+        }
+    }
+    
+    func testThatNewStateCanBeMergedWithState() {
+        self.measure {
+            let newStateDict: StateMap = ["city": "San Francisco", "recentlyMoved": true]
+            testState.setState(newStateDict)
+            let city: String? = testState.city
+            let recentlyMoved: Bool = testState.recentlyMoved
+            let height: Double = testState.height
+            XCTAssert(city == "San Francisco")
+            XCTAssert(recentlyMoved == true)
+            XCTAssert(height == initialHeight)
+            XCTAssert(city != initialCity)
+        }
+    }
+    
+    func testThatTypeCanBeQueried() {
+        self.measure {
+            XCTAssert(testState.type(of: "signedIn") == Bool.self)
         }
     }
     
@@ -46,5 +88,8 @@ final class LocalStateTests: XCTestCase {
         ("testThatEmptyInitializerWorks", testThatEmptyInitializerWorks),
         ("testThatInitializerWorksWithInitialState", testThatInitializerWorksWithInitialState),
         ("testThatStateValuesCanBeExtracted", testThatStateValuesCanBeExtracted),
+        ("testThatSingleStateItemCanBeSet", testThatSingleStateItemCanBeSet),
+        ("testThatNewStateCanBeMergedWithState", testThatNewStateCanBeMergedWithState),
+        ("testThatTypeCanBeQueried", testThatTypeCanBeQueried),
     ]
 }
