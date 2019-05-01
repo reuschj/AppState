@@ -22,7 +22,10 @@ let package = Package(
             name: "AppState",
             dependencies: []),
         .testTarget(
-            name: "AppStateTests",
+            name: "GlobalStateTests",
             dependencies: ["AppState"]),
+        .testTarget(
+            name: "LocalStateTests",
+            dependencies: ["AppState"])
     ]
 )
