@@ -22,9 +22,6 @@ let package = Package(
             name: "AppState",
             dependencies: []),
         .testTarget(
-            name: "AppStateTests",
-            dependencies: ["AppState"]),
-        .testTarget(
             name: "GlobalStateTests",
             dependencies: ["AppState"]),
         .testTarget(
