@@ -84,6 +84,50 @@ final class LocalStateTests: XCTestCase {
         }
     }
     
+    func testThatStateCanBeFilteredByType() {
+        self.measure {
+            testState.setState("Los Angeles", for: "city")
+            let subOfString: StateMapOf<String> = testState.filterByType()
+            XCTAssert(subOfString.count == 2)
+        }
+    }
+    
+    func testThatStateEqualityWorks() {
+        self.measure {
+            let state1 = testState
+            let state2 = LocalState(initialState: initialState)
+            var state3 = LocalState(initialState: initialState)
+            XCTAssert(state2 == state3)
+            state3.setState("Los Angeles", for: "city")
+            XCTAssert(state1 == state2)
+            XCTAssert(state2 != state3)
+        }
+    }
+    
+    func testThatStatesAreComparable() {
+        self.measure {
+            let state1 = testState ?? LocalState(initialState: initialState)
+            var state2 = LocalState(initialState: initialState)
+            var state3 = LocalState(initialState: initialState)
+            state2.setState("California", for: "state")
+            state3.remove("city")
+            XCTAssert(state1 > state3)
+            XCTAssert(state2 > state1)
+            XCTAssert(state2 >= state3)
+        }
+    }
+    
+    func testThatLocalStateCopiesAreIndependent() {
+        self.measure {
+            var state1 = LocalState(initialState: initialState)
+            var state2 = state1
+            XCTAssert(state1 == state2)
+            state1.setState("San Francisco", for: "city")
+            state2.setState("Los Angeles", for: "city")
+            XCTAssert(state1 != state2)
+        }
+    }
+    
     static var allTests = [
         ("testThatEmptyInitializerWorks", testThatEmptyInitializerWorks),
         ("testThatInitializerWorksWithInitialState", testThatInitializerWorksWithInitialState),
@@ -91,5 +135,9 @@ final class LocalStateTests: XCTestCase {
         ("testThatSingleStateItemCanBeSet", testThatSingleStateItemCanBeSet),
         ("testThatNewStateCanBeMergedWithState", testThatNewStateCanBeMergedWithState),
         ("testThatTypeCanBeQueried", testThatTypeCanBeQueried),
+        ("testThatStateCanBeFilteredByType", testThatStateCanBeFilteredByType),
+        ("testThatStateEqualityWorks", testThatStateEqualityWorks),
+        ("testThatStatesAreComparable", testThatStatesAreComparable),
+        ("testThatLocalStateCopiesAreIndependent", testThatLocalStateCopiesAreIndependent),
     ]
 }
