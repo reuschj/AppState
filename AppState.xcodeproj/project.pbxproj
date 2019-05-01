@@ -28,6 +28,7 @@
 		A485C16A226AE7FA00ED82DB /* LocalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A485C165226AE7FA00ED82DB /* LocalState.swift */; };
 		A485C16B226AE7FA00ED82DB /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = A485C166226AE7FA00ED82DB /* main.swift */; };
 		A485C16C226AE7FA00ED82DB /* StateMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = A485C167226AE7FA00ED82DB /* StateMap.swift */; };
+		A4D3E2A522795B4D00C67D8D /* GlobalStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4D3E2A422795B4D00C67D8D /* GlobalStateTests.swift */; };
 		OBJ_31 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_42 /* AppStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* AppStateTests.swift */; };
 		OBJ_43 /* XCTestManifests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* XCTestManifests.swift */; };
@@ -59,6 +60,7 @@
 		A485C165226AE7FA00ED82DB /* LocalState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalState.swift; sourceTree = "<group>"; };
 		A485C166226AE7FA00ED82DB /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		A485C167226AE7FA00ED82DB /* StateMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateMap.swift; sourceTree = "<group>"; };
+		A4D3E2A422795B4D00C67D8D /* GlobalStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalStateTests.swift; sourceTree = "<group>"; };
 		"AppState::AppState::Product" /* AppState.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppState.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"AppState::AppStateTests::Product" /* AppStateTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = AppStateTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_12 /* AppStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStateTests.swift; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 				A40CE890226EBC5D00A3D25F /* LocalStateTests.swift */,
 				OBJ_13 /* XCTestManifests.swift */,
 				A40CE88E226EBBDA00A3D25F /* constants.swift */,
+				A4D3E2A422795B4D00C67D8D /* GlobalStateTests.swift */,
 			);
 			name = AppStateTests;
 			path = Tests/AppStateTests;
@@ -260,6 +263,7 @@
 			buildActionMask = 0;
 			files = (
 				OBJ_42 /* AppStateTests.swift in Sources */,
+				A4D3E2A522795B4D00C67D8D /* GlobalStateTests.swift in Sources */,
 				OBJ_43 /* XCTestManifests.swift in Sources */,
 				A40CE892226EBCAB00A3D25F /* LocalStateTests.swift in Sources */,
 				A40CE893226EBCBF00A3D25F /* constants.swift in Sources */,
