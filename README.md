@@ -51,7 +51,7 @@ This is an implemenation of `ApplicationState` as a `struct`. This means it stor
 
 So, when you copy your state from one variable to another, each copy will be updated independently. This is likely preferred when setting a state that applies to a component within the app. The value type provides more safety from unwanted mutation by different parts of the app.
 
-### Example:
+#### Example:
 ```swift
 var user = LocalState(initialState: [
     "name": "Mike Smith",
