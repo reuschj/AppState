@@ -17,7 +17,7 @@ This module includes implemenations of `ApplicationState` as either a `struct` o
 - This is likely preferred when setting a state that applies to a component within the app.
 - The value type provides more safety from unwanted mutation by different parts of the app.
 
-### Example
+#### Example:
 ```swift
 struct MyState: ApplicationState {
     var dateCreated = Date()
@@ -33,7 +33,7 @@ This is an implemenation of `ApplicationState` as a `class`. This means it store
 
 So, when you copy your state from one variable to another, each copy will still point to the same place in memory. This is likely preferred when setting a state for an entire app, allowing different parts of the app to share a single instance.
 
-### Example
+#### Example:
 ```swift
 var user = GlobalState(initialState: [
     "name": "Mike Smith",
@@ -51,7 +51,7 @@ This is an implemenation of `ApplicationState` as a `struct`. This means it stor
 
 So, when you copy your state from one variable to another, each copy will be updated independently. This is likely preferred when setting a state that applies to a component within the app. The value type provides more safety from unwanted mutation by different parts of the app.
 
-### Example
+### Example:
 ```swift
 var user = LocalState(initialState: [
     "name": "Mike Smith",
@@ -67,8 +67,107 @@ print("Copy:", user02.state) // Prints "Copy: ["name": Optional("Jane Appleseed"
 
 ## Methods
 
-### `SetState(_:for)`
+### `SetState(_:for:allowOverride:)`
 
-To be continued...
+Sets a single value to type `T` to the specified member.
+- Parameter `value`: The value you are storing to state
+- Parameter `member`: The `String` key where you are storing the value to
+- Parameter `allowOverride`: Allows opt-in or opt-out of overriding existing values
+- Returns: Returns the orignal value as an optional (`nil` if member doesn't already exist)
 
+#### Example:
+```
+var user = LocalState(initialState: ["name": nil]})
+user.setState("Bob Johnson", for: "name") // Implementation has made allowOverride true by default
+let name: String? = user.name
+print(name ?? "No name") // Prints "Bob Johnson"
+```
+
+### `SetState(_:allowOverride:)`
+
+Set multiple members at once by passing a `StateMap` `Dictionary` to merge to state.
+- Parameter `stateToMerge`: A `StateMap` `Dictionary` to merge into your state
+- Parameter `allowOverride`: Allows opt-in or opt-out of overriding existing values
+- Returns: Returns the original state before merge
+
+#### Example:
+```
+var user = LocalState(initialState: ["name": nil]})
+user.setState(["name": "Bob Johnson", "age": 42]) // Implementation has made allowOverride true by default
+let name: String? = user.name
+let age: Int? = user.age
+print(name ?? "No name") // Prints "Bob Johnson"
+print(age ?? "No age specified") // Prints "42"
+```
+
+### `lookup<T>(_:)`
+
+Looks up the specified member from state and returns as an `Optional`.
+- Parameter `member`: The `String` key where you are storing the value to
+- Returns: Returns an `Optional` type (`.none` or `nil` if not found in state)
+
+#### Example:
+```
+var user = LocalState(initialState: ["name": "Bob Johnson", "age": 42])
+let name: String? = user.lookup("name")
+let age: Int? = user.lookup("age")
+print(name ?? "No name") // Prints "Bob Johnson"
+print(age ?? "No age specified") // Prints "42"
+```
+
+### `lookup<T>(_:withDefault:)`
+
+Looks up the specified member from state and returns either the value or specified default value.
+- Parameter `member`: The `String` key where you are storing the value to
+- Parameter `defaultValue`: The default value to return if no value was found when looking up member.
+- Returns: Returns a non-optional type and allows you to specify a default that will be used if the member is not found (or contains `nil`)
+
+#### Example:
+```
+var user = LocalState(initialState: ["name": "Bob Johnson", "age": 42])
+let name: String = user.lookup("name", withDefault: "No name")
+let age: Int = user.lookup("age", withDefault: 0)
+print(name) // Prints "Bob Johnson"
+print(age) // Prints "42"
+```
+
+### `filterByType<T>()`
+
+Filters the `StateMap` by the given type `T`, returning a `Dictionary` with only members with value of type `T`.
+- Returns: Returns a `Dictionary` with only members with value of type `T`
+
+#### Example:
+```
+var user = LocalState(initialState: ["name": "Bob Johnson", "age": 42, "state": "California", "numberOfCars": 1])
+let strings: StateMapOf<String> = user.filterByType()
+let ints: StateMapOf<Int> = user.filterByType()
+print(strings) // Prints "["state": "California", "name": "Bob Johnson"]"
+print(ints) // Prints "["age": 42, "numberOfCars": 1]"
+```
+### `type(of:)`
+
+Gets the type of value stored in the given member.
+- Parameter `member`: The `String` key where you are storing the value to
+- Returns: The type of value stored in the given member
+
+#### Example:
+```
+var user = LocalState(initialState: ["name": "Bob Johnson", "age": 42, "signedIn": false])
+print(user.type(of: "name") ?? "Member not found") // Prints "String"
+print(user.type(of: "age") ?? "Member not found") // Prints "Int"
+print(user.type(of: "signedIn") ?? "Member not found") // Prints "Bool"
+```
+
+### `remove(_:)`
+
+Removes the given member from state.
+- Returns: Returns the value that was removed
+
+#### Example:
+```
+var user = LocalState(initialState: ["name": "Bob Johnson", "age": 42, "state": "California", "numberOfCars": 1])
+print("Removing:", user.remove("age") ?? "Not removed") // Prints "Removing: 42"
+```
+
+## Dynamic Members
 
