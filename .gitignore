@@ -77,5 +77,8 @@ fastlane/test_output
 
 iOSInjectionProject/
 
+# OSX
+.DS_Store
+
 # VSCode
 .vscode/
