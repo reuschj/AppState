@@ -204,7 +204,7 @@ extension ApplicationState {
     
     // Your own type
     override subscript(dynamicMember member: MyType) -> MyType {
-        return lookup(member, withDefault: Type())
+        return lookup(member, withDefault: MyType())
     }
 }
 ```

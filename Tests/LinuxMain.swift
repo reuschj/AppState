@@ -1,7 +1,9 @@
 import XCTest
 
-import AppStateTests
+import GlobalStateTests
+import LocalStateTests
 
 var tests = [XCTestCaseEntry]()
-tests += AppStateTests.allTests()
+tests += GlobalStateTests.allTests()
+tests += LocalStateTests.allTests()
 XCTMain(tests)
